@@ -1,5 +1,5 @@
 import DiscordRPC from "discord-rpc";
-import { ipc as ipcTransport } from "discord-rpc/src/transports";
+
 class AutoClient extends DiscordRPC.Client {
   private closeinterval?: NodeJS.Timeout;
   public clientId?: string;
