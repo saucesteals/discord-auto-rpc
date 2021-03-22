@@ -10,7 +10,7 @@
   </p>
 </div>
 
-# Discord Auth RPC
+# Discord Auto RPC
 
 Extends the [discord-rpc](https://npmjs.org/discord-rpc) library to automatically reconnect on disconnect/error
 
