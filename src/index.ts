@@ -1,19 +1,21 @@
 import DiscordRPC from "discord-rpc";
-
+import { ipc as ipcTransport } from "discord-rpc/src/transports";
 class AutoClient extends DiscordRPC.Client {
   private closeinterval?: NodeJS.Timeout;
-  constructor(options: DiscordRPC.RPCClientOptions) {
+  public clientId?: string;
+  private transport: any;
+  constructor(readonly options: DiscordRPC.RPCClientOptions) {
     super(options);
 
     if (options.transport == "ipc") {
-      (this as any).transport.on("close", this.onClose.bind(this));
+      this.transport.on("close", this.onClose.bind(this));
     }
   }
 
   private onClose() {
     if (!this.closeinterval) {
       this.closeinterval = setInterval(() => {
-        (this as any).transport
+        this.transport
           .connect()
           .then(() => {
             this.closeinterval && clearInterval(this.closeinterval);
@@ -25,20 +27,32 @@ class AutoClient extends DiscordRPC.Client {
     }
   }
 
-  public async endlessLogin(options: DiscordRPC.RPCLoginOptions): Promise<this> {
-    await new Promise<void>((res) => {
+  private endlessConnect(clientId: string): Promise<void> {
+    return new Promise((res) => {
+      this.clientId = clientId;
       const fn = () => {
-        this.connect(options.clientId)
+        this.transport
+          .connect(this.clientId)
           .then(() => {
             clearInterval(interval);
-            res();
           })
           .catch(() => {});
       };
-      const interval = setInterval(fn, 10e3);
+      const interval = setInterval(fn, 15e3);
       interval.unref();
       fn();
+
+      this.once("connected", () => {
+        res();
+      });
     });
+  }
+
+  public async endlessLogin(options: DiscordRPC.RPCLoginOptions): Promise<this> {
+    if (this.options.transport != "ipc")
+      throw new Error("Endless login is currently only supported on the IPC transport");
+
+    await this.endlessConnect(options.clientId);
 
     if (!options.scopes) {
       this.emit("ready");

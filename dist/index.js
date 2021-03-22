@@ -7,6 +7,7 @@ const discord_rpc_1 = __importDefault(require("discord-rpc"));
 class AutoClient extends discord_rpc_1.default.Client {
     constructor(options) {
         super(options);
+        this.options = options;
         if (options.transport == "ipc") {
             this.transport.on("close", this.onClose.bind(this));
         }
@@ -25,20 +26,29 @@ class AutoClient extends discord_rpc_1.default.Client {
             this.closeinterval.unref();
         }
     }
-    async endlessLogin(options) {
-        await new Promise((res) => {
+    endlessConnect(clientId) {
+        return new Promise((res) => {
+            this.clientId = clientId;
             const fn = () => {
-                this.connect(options.clientId)
+                this.transport
+                    .connect(this.clientId)
                     .then(() => {
                     clearInterval(interval);
-                    res();
                 })
                     .catch(() => { });
             };
-            const interval = setInterval(fn, 10e3);
+            const interval = setInterval(fn, 15e3);
             interval.unref();
             fn();
+            this.once("connected", () => {
+                res();
+            });
         });
+    }
+    async endlessLogin(options) {
+        if (this.options.transport != "ipc")
+            throw new Error("Endless login is currently only supported on the IPC transport");
+        await this.endlessConnect(options.clientId);
         if (!options.scopes) {
             this.emit("ready");
             return this;

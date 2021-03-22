@@ -17,9 +17,9 @@ Extends the [discord-rpc](https://npmjs.org/discord-rpc) library to automaticall
 ### Example
 
 ```typescript
-import DiscordRPC from "discord-auto-rpc";
+import DiscordRPC from "../src";
 
-const client = new DiscordRPC.AutoClient({ transport: "ipc" });
+const client = new DiscordRPC.AutoClient({ transport: "ipc" }); // Reconnection only available on IPC transport
 
 const setActivity = () => {
   client.setActivity({
@@ -30,13 +30,18 @@ const setActivity = () => {
   });
 };
 
-client.on("ready", () => {
+client.once("ready", () => {
   setActivity();
   setInterval(setActivity, 15e3);
 });
 
 client.endlessLogin({ clientId: "797173289616801862" });
 
+
+// client.endlessLogin() will keep retrying to login until it is successful (ex. wait until discord is open if its not)
+
+// if you want to attempt to login once - client.login() 
+// client.login() is still able to reconnect on disconnects
 ```
 
 Note that the auto reconnecting feature is only present when using `IPC` as the transport
