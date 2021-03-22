@@ -2,12 +2,10 @@ import DiscordRPC from "discord-rpc";
 
 class AutoClient extends DiscordRPC.Client {
   private closeinterval?: NodeJS.Timeout;
-  private _clientID?: string;
+  private clientId?: string;
   private transport: any;
-
-  get clientID(): string | undefined {
-    return this._clientID
-  }
+  private authenticate: any;
+  private authorize: any;
 
   constructor(readonly options: DiscordRPC.RPCClientOptions) {
     super(options);
@@ -34,10 +32,10 @@ class AutoClient extends DiscordRPC.Client {
 
   private endlessConnect(clientId: string): Promise<void> {
     return new Promise((res) => {
-      this._clientID = clientId;
+      this.clientId = clientId;
       const fn = () => {
         this.transport
-          .connect(this.clientID)
+          .connect(this.clientId)
           .then(() => {
             clearInterval(interval);
           })
@@ -64,9 +62,9 @@ class AutoClient extends DiscordRPC.Client {
       return this;
     }
     if (!options.accessToken) {
-      options.accessToken = await (this as any).authorize(options);
+      options.accessToken = await this.authorize(options);
     }
-    return (this as any).authenticate(options.accessToken);
+    return this.authenticate(options.accessToken);
   }
 }
 
