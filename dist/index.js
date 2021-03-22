@@ -36,8 +36,8 @@ class AutoClient extends discord_rpc_1.default.Client {
                     .catch(console.error);
             };
             const interval = setInterval(fn, 10e3);
-            fn();
             interval.unref();
+            fn();
         });
         if (!options.scopes) {
             this.emit("ready");
