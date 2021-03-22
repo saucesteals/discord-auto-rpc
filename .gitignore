@@ -1,3 +1,6 @@
+# ts
+dist/
+
 # Logs
 logs
 *.log

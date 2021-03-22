@@ -1,4 +1,4 @@
-import DiscordRPC from "../dist";
+import DiscordRPC from "../src";
 
 const client = new DiscordRPC.AutoClient({ transport: "ipc" });
 

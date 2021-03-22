@@ -1,6 +1,6 @@
 {
   "name": "discord-auto-rpc",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Auto reconnecting discord rpc",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,9 +8,9 @@
   "author": "sauce",
   "license": "MIT",
   "scripts": {
+    "prepublish": "tsc",
     "test": "ts-node ./tests/example.ts",
-    "build": "tsc",
-    "ship": "yarn build && yarn publish"
+    "build": "tsc"
   },
   "dependencies": {
     "discord-rpc": "^3.2.0"
