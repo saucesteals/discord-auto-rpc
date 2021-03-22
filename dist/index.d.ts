@@ -2,8 +2,9 @@ import DiscordRPC from "discord-rpc";
 declare class AutoClient extends DiscordRPC.Client {
     readonly options: DiscordRPC.RPCClientOptions;
     private closeinterval?;
-    clientId?: string;
+    private _clientID?;
     private transport;
+    get clientID(): string | undefined;
     constructor(options: DiscordRPC.RPCClientOptions);
     private onClose;
     private endlessConnect;

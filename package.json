@@ -9,7 +9,8 @@
   "license": "MIT",
   "scripts": {
     "test": "ts-node ./tests/example.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "ship": "yarn build && yarn publish"
   },
   "dependencies": {
     "discord-rpc": "^3.2.0"

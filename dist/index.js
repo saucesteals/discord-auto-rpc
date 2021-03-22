@@ -12,6 +12,9 @@ class AutoClient extends discord_rpc_1.default.Client {
             this.transport.on("close", this.onClose.bind(this));
         }
     }
+    get clientID() {
+        return this._clientID;
+    }
     onClose() {
         if (!this.closeinterval) {
             this.closeinterval = setInterval(() => {
@@ -28,10 +31,10 @@ class AutoClient extends discord_rpc_1.default.Client {
     }
     endlessConnect(clientId) {
         return new Promise((res) => {
-            this.clientId = clientId;
+            this._clientID = clientId;
             const fn = () => {
                 this.transport
-                    .connect(this.clientId)
+                    .connect(this.clientID)
                     .then(() => {
                     clearInterval(interval);
                 })
