@@ -33,7 +33,7 @@ class AutoClient extends DiscordRPC.Client {
             clearInterval(interval);
             res();
           })
-          .catch(console.error);
+          .catch(() => {});
       };
       const interval = setInterval(fn, 10e3);
       interval.unref();
@@ -51,7 +51,7 @@ class AutoClient extends DiscordRPC.Client {
   }
 }
 
-export default { 
-    AutoClient,
-    ...DiscordRPC
-}
+export default {
+  AutoClient,
+  ...DiscordRPC,
+};
