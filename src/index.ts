@@ -1,6 +1,6 @@
 import DiscordRPC from "discord-rpc";
 
-class AutoClient extends DiscordRPC.Client {
+export class AutoClient extends DiscordRPC.Client {
   private closeinterval?: NodeJS.Timeout;
   private clientId?: string;
   private transport: any;
@@ -51,9 +51,13 @@ class AutoClient extends DiscordRPC.Client {
     });
   }
 
-  public async endlessLogin(options: DiscordRPC.RPCLoginOptions): Promise<this> {
+  public async endlessLogin(
+    options: DiscordRPC.RPCLoginOptions
+  ): Promise<this> {
     if (this.options.transport != "ipc")
-      throw new Error("Endless login is currently only supported on the IPC transport");
+      throw new Error(
+        "Endless login is currently only supported on the IPC transport"
+      );
 
     await this.endlessConnect(options.clientId);
 
@@ -68,7 +72,4 @@ class AutoClient extends DiscordRPC.Client {
   }
 }
 
-export default {
-  AutoClient,
-  ...DiscordRPC,
-};
+export * from "discord-rpc";

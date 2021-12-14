@@ -1,4 +1,4 @@
-import DiscordRPC from "../src";
+import DiscordRPC from "../dist";
 
 const client = new DiscordRPC.AutoClient({ transport: "ipc" });
 
@@ -18,9 +18,7 @@ client.once("ready", () => {
 
 client.endlessLogin({ clientId: "797173289616801862" });
 
-
 // client.endlessLogin() will keep retrying to login until it is successful (ex. wait until discord is open if its not)
 
-// if you want to attempt to login once - client.login() 
+// if you want to attempt to login once - client.login()
 // client.login() is still able to reconnect
-
