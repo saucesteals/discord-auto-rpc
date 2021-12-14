@@ -9,7 +9,7 @@
   "license": "MIT",
   "scripts": {
     "prepublish": "tsc",
-    "test": "ts-node ./tests/example.ts",
+    "test": "ts-node ./test/example.ts",
     "build": "tsc"
   },
   "dependencies": {
