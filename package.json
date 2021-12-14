@@ -4,11 +4,14 @@
   "description": "Auto reconnecting discord rpc",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "repository": "http://github.com/saucesteals/discord-auto-rpc",
   "author": "sauce",
   "license": "MIT",
   "scripts": {
-    "prepublish": "tsc",
+    "prepublish": "yarn build",
     "test": "yarn build && ts-node ./test/example.ts",
     "build": "tsc"
   },
