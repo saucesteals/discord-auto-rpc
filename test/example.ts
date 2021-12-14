@@ -1,6 +1,8 @@
-import DiscordRPC from "../dist";
+import { AutoClient } from "../dist";
+// import * as DiscordRPC from "../dist"
+// const AutoClient = DiscordRPC.AutoClient
 
-const client = new DiscordRPC.AutoClient({ transport: "ipc" });
+const client = new AutoClient({ transport: "ipc" });
 
 const setActivity = () => {
   client.setActivity({
