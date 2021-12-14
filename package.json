@@ -1,6 +1,6 @@
 {
   "name": "discord-auto-rpc",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Auto reconnecting discord rpc",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
